@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <div class="mt-2 p-5">
+        <a href="{%url 'add-book' %}" class="btn btn-primary">Adicionar Livro</a>
+        <div class="d-flex flex-wrap mt-2" style="gap: 20px">
+            {% for livro in livros %}
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ livro.bookCover.url }}" class="card-img-top" style="max-height: 160px" alt="...">
+                    <div class="card-body">
+                        <h6 class="card-title">{{ livro.name }}</h6>
+                        <p class="card-text">Categoria: {{ livro.category }} <br> {{ livro.qtdPages }} Páginas <br> Autor: {{ livro.author }}
+                        <br> Estoque: {{ livro.qtdBooks }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <form method="POST" class="container mt-5" enctype="multipart/form-data"> {% csrf_token %}
+        <h1>Adicionar Livro</h1>
+        <input class="form-control my-1" type="text" name="name" placeholder="Nome">
+        <select class="form-control my-1" name="gender" id="">
+            {% for genero in generos %}
+                <option value="{{genero.id}}">{{ genero.name }}</option>
+            {% endfor %}
+        </select>
+        <input class="form-control my-1" type="file" name="bookCover" placeholder="Capa do livro">
+        <input class="form-control my-1" type="text" name="qtdPages" placeholder="Quantidade de páginas">
+        <input class="form-control my-1" type="text" name="author" placeholder="Autor">
+        <input class="form-control my-1" type="text" name="qtdBooks" placeholder="Quantidade em estoque">
+        <button type="submit" class="btn btn-success mt-2">Salvar</button>
+    </form>
+{% endblock %}
