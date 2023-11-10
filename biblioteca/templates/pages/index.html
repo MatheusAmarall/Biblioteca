@@ -11,6 +11,9 @@
                         <h6 class="card-title">{{ livro.name }}</h6>
                         <p class="card-text">Categoria: {{ livro.category }} <br> {{ livro.qtdPages }} Páginas <br> Autor: {{ livro.author }}
                         <br> Estoque: {{ livro.qtdBooks }}</p>
+                        {% if livro.in_stock %}
+                            <a href="{% url 'loan-book' livro.id %}" class="btn btn-secondary">Emprestar livro</a>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}
