@@ -24,6 +24,7 @@
                     <div class="d-flex justify-content-center">
                         <button type="submit" class="btn btn-primary mt-3">Entrar</button>
                     </div>
+                    <a href="{% url 'register' %}">Registre-se</a>
                     {% if messages %}
                         {% for message in messages %}
                             <h5>{{message}}</h5>

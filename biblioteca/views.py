@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Books, Genres
+from .models import Books, Genres, BooksLoaned
 from django.contrib.auth.decorators import login_required
 from django.contrib import auth
 
@@ -15,7 +15,6 @@ def user_logout(request):
 def add_book(request):
 
     if request.method == 'POST':
-        pass
         name = request.POST.get('name')
         gender = request.POST.get('gender')
         bookCover = request.FILES.get('bookCover')
@@ -42,9 +41,21 @@ def add_book(request):
 def loan_book(request, id):
     book = Books.objects.get(id=id)
     book.qtdBooks -= 1
+    BooksLoaned.objects.create(
+        user_id=request.user.id,
+        book_id=id
+    )
     
     if book.qtdBooks == 0:
         book.in_stock = False
     
     book.save()
     return redirect('home')
+
+def loan_books(request):
+    livrosEmprestados = BooksLoaned.objects.filter(user_id=request.user.id, returned=False)
+    livros = []
+    for livroEmprestado in livrosEmprestados:
+        livros.append(livroEmprestado.book)
+    
+    return render(request, 'pages/loan-books.html', {'livros':livros})
