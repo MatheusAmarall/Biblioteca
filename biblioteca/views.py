@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from .models import Books, Genres, BooksLoaned
 from django.contrib.auth.decorators import login_required
 from django.contrib import auth
+from .utils import send_email
+from datetime import datetime
 
 @login_required(redirect_field_name='login')
 def index(request):
@@ -45,6 +47,8 @@ def loan_book(request, id):
         user_id=request.user.id,
         book_id=id
     )
+
+    send_email("Empréstimo de livro", f"Você pegou o livro {book.name} emprestado no dia de hoje: {datetime.now()}", request.user.email)
     
     if book.qtdBooks == 0:
         book.in_stock = False
