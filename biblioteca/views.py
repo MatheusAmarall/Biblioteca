@@ -56,13 +56,17 @@ def loan_book(request, id):
     book.save()
     return redirect('home')
 
+
 def loan_books(request):
-    livrosEmprestados = BooksLoaned.objects.filter(user_id=request.user.id, returned=False)
-    livros = []
-    for livroEmprestado in livrosEmprestados:
-        livros.append(livroEmprestado.book)
+    if not request.user.is_superuser:
+        livrosEmprestados = BooksLoaned.objects.filter(user_id=request.user.id, returned=False)
+        livros = []
+        for livroEmprestado in livrosEmprestados:
+            livros.append(livroEmprestado.book)
+        
+        return render(request, 'pages/loan-books.html', {'livros':livros})
     
-    return render(request, 'pages/loan-books.html', {'livros':livros})
+    return redirect('home')
 
 def return_book(request, id):
     loaned_books = BooksLoaned.objects.filter(user_id=request.user.id, book_id=id)

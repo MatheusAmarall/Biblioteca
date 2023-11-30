@@ -12,13 +12,13 @@
                     <div class="card-body">
                         <h6 class="card-title font-weight-bold">{{ livro.name }}</h6>
                         <p class="card-text">
-                            Categoria: {{ livro.category }} <br>
+                            Categoria: {{ livro.gender }} <br>
                             Quantidade de páginas: {{ livro.qtdPages }}<br>
                             Autor: {{ livro.author }} <br>
                             Estoque: {{ livro.qtdBooks }}
                         </p>
                         {% if livro.in_stock and not user.is_superuser %}
-                            <a href="{% url 'loan-book' livro.id %}" class="btn btn-success mt-3" style="width: 100%;">Emprestar livro</a>
+                            <a href="{% url 'loan-book' livro.id %}" class="btn btn-success" style="width: 100%;">Alugar livro</a>
                         {% endif %}
                     </div>
                 </div>
