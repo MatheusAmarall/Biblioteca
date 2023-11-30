@@ -2,17 +2,23 @@
 
 {% block main %}
     <div class="mt-2 p-5">
-        <a href="{%url 'add-book' %}" class="btn btn-primary">Adicionar Livro</a>
+        {% if user.is_superuser %}
+            <a href="{%url 'add-book' %}" class="btn btn-primary">Adicionar Livro</a>
+        {% endif %}
         <div class="d-flex flex-wrap mt-2" style="gap: 20px">
             {% for livro in livros %}
-                <div class="card" style="width: 18rem;">
-                    <img src="{{ livro.bookCover.url }}" class="card-img-top" style="max-height: 160px" alt="...">
+                <div class="card shadow" style="width: 18rem; border-radius: 15px;">
+                    <img src="{{ livro.bookCover.url }}" class="card-img-top rounded-top" style="max-height: 160px; object-fit: cover;" alt="Imagem do Livro">
                     <div class="card-body">
-                        <h6 class="card-title">{{ livro.name }}</h6>
-                        <p class="card-text">Categoria: {{ livro.category }} <br> {{ livro.qtdPages }} Páginas <br> Autor: {{ livro.author }}
-                        <br> Estoque: {{ livro.qtdBooks }}</p>
-                        {% if livro.in_stock %}
-                            <a href="{% url 'loan-book' livro.id %}" class="btn btn-secondary">Emprestar livro</a>
+                        <h6 class="card-title font-weight-bold">{{ livro.name }}</h6>
+                        <p class="card-text">
+                            Categoria: {{ livro.category }} <br>
+                            Quantidade de páginas: {{ livro.qtdPages }}<br>
+                            Autor: {{ livro.author }} <br>
+                            Estoque: {{ livro.qtdBooks }}
+                        </p>
+                        {% if livro.in_stock and not user.is_superuser %}
+                            <a href="{% url 'loan-book' livro.id %}" class="btn btn-success mt-3" style="width: 100%;">Emprestar livro</a>
                         {% endif %}
                     </div>
                 </div>

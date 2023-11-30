@@ -22,9 +22,11 @@
                         <input type="password" class="form-control" name="password">
                     </div>
                     <div class="d-flex justify-content-center">
-                        <button type="submit" class="btn btn-primary mt-3">Entrar</button>
+                        <button type="submit" class="btn btn-primary mt-3" style="width: 150px;">Entrar</button>
                     </div>
-                    <a href="{% url 'register' %}">Registre-se</a>
+                    <div class="text-center mt-2">
+                        <span>Não possui cadastro? </span><a href="{% url 'register' %}">Registre-se</a>
+                    </div>
                     {% if messages %}
                         {% for message in messages %}
                             <h5>{{message}}</h5>

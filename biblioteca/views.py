@@ -48,7 +48,7 @@ def loan_book(request, id):
         book_id=id
     )
 
-    send_email("Empréstimo de livro", f"Você pegou o livro {book.name} emprestado no dia de hoje: {datetime.now()}", request.user.email)
+    # send_email("Empréstimo de livro", f"Você pegou o livro {book.name} emprestado no dia de hoje: {datetime.now()}", request.user.email)
     
     if book.qtdBooks == 0:
         book.in_stock = False
@@ -63,3 +63,14 @@ def loan_books(request):
         livros.append(livroEmprestado.book)
     
     return render(request, 'pages/loan-books.html', {'livros':livros})
+
+def return_book(request, id):
+    loaned_books = BooksLoaned.objects.filter(user_id=request.user.id, book_id=id)
+    loaned_books[0].delete()
+    book = Books.objects.get(id=id)
+    if not book.in_stock:
+        book.in_stock = True
+    book.qtdBooks += 1
+    book.save()
+    
+    return redirect('home') if len(loaned_books) == 0 else redirect('loan-books')
