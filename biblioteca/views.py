@@ -48,7 +48,7 @@ def loan_book(request, id):
         book_id=id
     )
 
-    # send_email("Empréstimo de livro", f"Você pegou o livro {book.name} emprestado no dia de hoje: {datetime.now()}", request.user.email)
+    send_email("Empréstimo de livro", f"Você pegou o livro {book.name} emprestado no dia de hoje: {datetime.now()}", request.user.email)
     
     if book.qtdBooks == 0:
         book.in_stock = False
