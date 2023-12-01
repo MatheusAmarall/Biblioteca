@@ -69,8 +69,11 @@ def loan_books(request):
     return redirect('home')
 
 def return_book(request, id):
-    loaned_books = BooksLoaned.objects.filter(user_id=request.user.id, book_id=id)
-    loaned_books[0].delete()
+    loaned_books = BooksLoaned.objects.filter(user_id=request.user.id, book_id=id, returned=False)
+    loaned_book = loaned_books[0]
+    loaned_book.returned = True
+    loaned_book.save()
+
     book = Books.objects.get(id=id)
     if not book.in_stock:
         book.in_stock = True
